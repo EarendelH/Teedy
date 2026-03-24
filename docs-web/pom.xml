@@ -164,6 +164,7 @@
             <filtering>false</filtering>
             <excludes>
               <exclude>**/config.properties</exclude>
+              <exclude>**/hibernate.properties</exclude>
             </excludes>
           </resource>
           <resource>
@@ -171,6 +172,7 @@
             <filtering>true</filtering>
             <includes>
               <include>**/config.properties</include>
+              <include>**/hibernate.properties</include>
             </includes>
           </resource>
         </resources>
@@ -182,10 +184,10 @@
             <configuration>
               <systemProperties>
                 <application.mode>dev</application.mode>
-                <docs.home>../data/docs</docs.home>
+                <docs.home>${project.basedir}/../data/docs</docs.home>
               </systemProperties>
               <webApp>
-                <contextPath>/docs-web</contextPath>
+                <contextPath>/</contextPath>
                 <overrideDescriptor>${project.basedir}/src/dev/main/webapp/web-override.xml</overrideDescriptor>
               </webApp>
             </configuration>
