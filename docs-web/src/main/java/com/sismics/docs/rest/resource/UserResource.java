@@ -295,7 +295,7 @@ public class UserResource extends BaseResource {
         UserDao userDao = new UserDao();
         User user = null;
         if (Constants.GUEST_USER_ID.equals(username)) {
-            if (ConfigUtil.getConfigBooleanValue(ConfigType.GUEST_LOGIN)) {
+            if (ConfigUtil.getConfigBooleanValue(ConfigType.GUEST_LOGIN, true)) {
                 // Login as guest
                 user = userDao.getActiveByUsername(Constants.GUEST_USER_ID);
             }
