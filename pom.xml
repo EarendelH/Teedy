@@ -64,6 +64,8 @@
     <org.apache.maven.plugins.maven-site-plugin.version>3.12.1</org.apache.maven.plugins.maven-site-plugin.version>
     <org.apache.maven.plugins.maven-project-info-reports-plugin.version>3.5.0</org.apache.maven.plugins.maven-project-info-reports-plugin.version>
     <org.eclipse.jetty.jetty-maven-plugin.version>11.0.20</org.eclipse.jetty.jetty-maven-plugin.version>
+    <org.apache.maven.plugins.maven-pmd-plugin.version>3.21.0</org.apache.maven.plugins.maven-pmd-plugin.version>
+    <org.jacoco.jacoco-maven-plugin.version>0.8.11</org.jacoco.jacoco-maven-plugin.version>
   </properties>
 
   <scm>
@@ -118,6 +120,10 @@
         <configuration>
           <forkCount>1</forkCount>
           <reuseForks>false</reuseForks>
+          <includes>
+            <include>**/*Test.java</include>
+            <include>**/Test*.java</include>
+          </includes>
         </configuration>
       </plugin>
 
@@ -130,6 +136,32 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-site-plugin</artifactId>
         <version>${org.apache.maven.plugins.maven-site-plugin.version}</version>
+      </plugin>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>${org.jacoco.jacoco-maven-plugin.version}</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>report</id>
+            <phase>test</phase>
+            <goals>
+              <goal>report</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>report-aggregate</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>report-aggregate</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
@@ -150,6 +182,54 @@
               <report>dependency-management</report>
               <report>scm</report>
               <report>licenses</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-pmd-plugin</artifactId>
+        <version>${org.apache.maven.plugins.maven-pmd-plugin.version}</version>
+        <configuration>
+          <linkXRef>false</linkXRef>
+          <sourceEncoding>utf-8</sourceEncoding>
+          <minimumTokens>100</minimumTokens>
+          <targetJdk>11</targetJdk>
+          <rulesets>
+            <ruleset>/rulesets/java/basic.xml</ruleset>
+            <ruleset>/rulesets/java/unusedcode.xml</ruleset>
+            <ruleset>/rulesets/java/imports.xml</ruleset>
+            <ruleset>/rulesets/java/design.xml</ruleset>
+          </rulesets>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-report-plugin</artifactId>
+        <version>${org.apache.maven.plugins.maven-surefire-plugin.version}</version>
+        <reportSets>
+          <reportSet>
+            <id>aggregate</id>
+            <inherited>false</inherited>
+            <reports>
+              <report>report</report>
+            </reports>
+            <configuration>
+              <aggregate>true</aggregate>
+            </configuration>
+          </reportSet>
+        </reportSets>
+      </plugin>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>${org.jacoco.jacoco-maven-plugin.version}</version>
+        <reportSets>
+          <reportSet>
+            <id>aggregate</id>
+            <inherited>false</inherited>
+            <reports>
+              <report>report-aggregate</report>
             </reports>
           </reportSet>
         </reportSets>
