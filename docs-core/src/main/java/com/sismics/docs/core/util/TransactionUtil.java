@@ -66,15 +66,13 @@ public class TransactionUtil {
         }
         
         // No error in the current request : commit the transaction
-        if (em.isOpen()) {
-            if (em.getTransaction() != null && em.getTransaction().isActive()) {
-                em.getTransaction().commit();
-                
-                try {
-                    em.close();
-                } catch (Exception e) {
-                    log.error("Error closing entity manager", e);
-                }
+        if (em.isOpen() && em.getTransaction() != null && em.getTransaction().isActive()) {
+            em.getTransaction().commit();
+
+            try {
+                em.close();
+            } catch (Exception e) {
+                log.error("Error closing entity manager", e);
             }
         }
 

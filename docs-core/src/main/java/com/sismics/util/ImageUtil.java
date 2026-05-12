@@ -1,6 +1,8 @@
 package com.sismics.util;
 
 import com.google.common.hash.Hashing;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
@@ -21,6 +23,7 @@ import java.util.Iterator;
  * @author jtremeaux
  */
 public class ImageUtil {
+    private static final Logger log = LoggerFactory.getLogger(ImageUtil.class);
     /**
      * Write a high quality JPEG.
      * 
@@ -57,7 +60,7 @@ public class ImageUtil {
                 try {
                     imageOutputStream.close();
                 } catch (Exception inner) {
-                    // NOP
+                    log.warn("Failed to close image output stream", inner);
                 }
             }
             if (writer != null) {
@@ -131,7 +134,7 @@ public class ImageUtil {
             b = (pixelRGBValue) & 0xff;
             luminance = (r * 0.299) + (g * 0.587) + (b * 0.114);
         } catch (Exception e) {
-            // NOP
+            log.warn("Failed to get RGB value at position ({}, {})", x, y, e);
         }
 
         return luminance < luminanceCutOff;
