@@ -63,7 +63,7 @@ jobs:
         id: metadata
         uses: docker/metadata-action@v3
         with:
-          images: xx/teedy
+          images: earendelheng/teedy
           flavor: |
             latest=false
           tags: |

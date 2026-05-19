@@ -30,12 +30,12 @@ This project implements CI/CD pipeline for Teedy application using Jenkins and D
      - Username: Your Docker Hub username
      - Password: Your Docker Hub password or access token
 
-#### Step 2: Update Jenkinsfile
-Edit the `DOCKER_IMAGE` environment variable in `Jenkinsfile`:
+#### Step 2: Jenkinsfile Configuration
+The `DOCKER_IMAGE` environment variable in `Jenkinsfile` is already configured:
 ```groovy
 environment {
     DOCKER_HUB_CREDENTIALS = 'dockerhub_credentials'
-    DOCKER_IMAGE = 'your_dockerhub_username/teedy'  // Change this to your Docker Hub username
+    DOCKER_IMAGE = 'earendelheng/teedy'
     DOCKER_TAG = "${env.BUILD_NUMBER}"
 }
 ```
@@ -72,10 +72,10 @@ Add the following secrets:
 - `DOCKERHUB_USERNAME`: Your Docker Hub username
 - `DOCKERHUB_TOKEN`: Your Docker Hub access token
 
-#### Step 2: Update Workflow File
-Edit `.github/workflows/docker-image.yml` and change the image name:
+#### Step 2: Workflow Configuration
+The workflow file `.github/workflows/docker-image.yml` is already configured with:
 ```yaml
-images: your_dockerhub_username/teedy  # Change this line
+images: earendelheng/teedy
 ```
 
 #### Step 3: Push to GitHub
@@ -131,7 +131,7 @@ To complete Practice 10, you need to show:
 
 2. ✅ **Docker Hub repository**
    - Screenshot of your Docker Hub repository showing the pushed image
-   - URL: https://hub.docker.com/r/your_username/teedy
+   - URL: https://hub.docker.com/r/earendelheng/teedy
 
 3. ✅ **Three running containers**
    - Screenshot of `docker ps` command showing three containers running

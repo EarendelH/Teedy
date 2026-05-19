@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         DOCKER_HUB_CREDENTIALS = 'dockerhub_credentials'
-        DOCKER_IMAGE = 'your_dockerhub_username/teedy'
+        DOCKER_IMAGE = 'earendelheng/teedy'
         DOCKER_TAG = "${env.BUILD_NUMBER}"
     }
 
