@@ -24,7 +24,9 @@ import org.apache.directory.server.ldap.LdapServer;
 import org.apache.directory.server.protocol.shared.store.LdifFileLoader;
 import org.apache.directory.server.protocol.shared.transport.TcpTransport;
 import org.junit.Assert;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 
 
 /**
@@ -32,6 +34,7 @@ import org.junit.Test;
  *
  * @author jtremeaux
  */
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestAppResource extends BaseJerseyTest {
     /**
      * Test the API resource.
@@ -232,6 +235,13 @@ public class TestAppResource extends BaseJerseyTest {
                 .cookie(TokenBasedSecurityFilter.COOKIE_NAME, adminToken)
                 .get(JsonObject.class);
         Assert.assertTrue(json.getBoolean("enabled"));
+
+        // Disable OCR (clean up state)
+        target().path("/app/ocr").request()
+                .cookie(TokenBasedSecurityFilter.COOKIE_NAME, adminToken)
+                .post(Entity.form(new Form()
+                        .param("enabled", "false")
+                ), JsonObject.class);
     }
 
     /**
