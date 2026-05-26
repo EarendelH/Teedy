@@ -21,7 +21,7 @@ jobs:
           cache: maven
 
       - name: Install test dependencies
-        run: sudo apt-get update && sudo apt-get install -y -q --no-install-recommends install ffmpeg mediainfo
+        run: sudo apt-get update && sudo apt-get install -y -q --no-install-recommends ffmpeg mediainfo
 
       - name: Build with Maven
         run: mvn --batch-mode -Pprod clean install
