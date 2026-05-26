@@ -1,0 +1,71 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: teedy
+  namespace: teedy
+  labels:
+    app: teedy
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: teedy
+  template:
+    metadata:
+      labels:
+        app: teedy
+    spec:
+      containers:
+      - name: teedy
+        image: earendelheng/teedy:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+        env:
+        - name: DOCS_BASE_URL
+          value: "http://localhost:8080"
+        - name: DOCS_ADMIN_EMAIL_INIT
+          value: "admin@teedy.io"
+        - name: DOCS_ADMIN_PASSWORD_INIT
+          value: "admin"
+        - name: DOCS_DB_URL
+          value: "jdbc:postgresql://teedy-db:5432/teedy"
+        - name: DOCS_DB_USER
+          value: "teedy"
+        - name: DOCS_DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: teedy-db-secret
+              key: password
+        volumeMounts:
+        - name: teedy-data
+          mountPath: /data
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+          limits:
+            memory: "1Gi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /api/app
+            port: 8080
+          initialDelaySeconds: 60
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /api/app
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3
+      volumes:
+      - name: teedy-data
+        persistentVolumeClaim:
+          claimName: teedy-data-pvc

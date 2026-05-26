@@ -1,0 +1,11 @@
+# Ignore generated files
+*.log
+*.tmp
+
+# Ignore local overrides
+*-local.yaml
+kustomization-local.yaml
+
+# Ignore backup files
+*.bak
+*~
